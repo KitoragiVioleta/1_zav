@@ -6,7 +6,7 @@ export const options = {
   vus: 50,
   thresholds: {
     http_req_failed: ["rate<0.01"],     // помилки < 1%
-    http_req_duration: ["p(95)<10"],   // 95-й перцентиль < 500 мс
+    http_req_duration: ["p(95)<500"],   // 95-й перцентиль < 500 мс
   },
 };
 
