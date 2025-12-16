@@ -1,16 +1,17 @@
-import http from "k6/http";
-import { sleep } from "k6";
+const express = require("express");
+const client = require("prom-client");
 
-export const options = {
-  duration: "1m",
-  vus: 50,
-  thresholds: {
-    http_req_failed: ["rate<0.01"],     // помилки < 1%
-    http_req_duration: ["p(95)<500"],   // 95-й перцентиль < 500 мс
-  },
-};
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-export default function () {
-  http.get("https://quickpizza.grafana.com/");
-  sleep(1);
-}
+// default Node.js metrics
+client.collectDefaultMetrics();
+
+app.get("/", (req, res) => res.send("Hello, DevOps World!"));
+
+app.get("/metrics", async (req, res) => {
+  res.set("Content-Type", client.register.contentType);
+  res.end(await client.register.metrics());
+});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

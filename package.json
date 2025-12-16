@@ -1,0 +1,26 @@
+{
+  "name": "1_zav",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KitoragiVioleta/1_zav.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/KitoragiVioleta/1_zav/issues"
+  },
+  "homepage": "https://github.com/KitoragiVioleta/1_zav#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "prom-client": "^15.1.3"
+  }
+}

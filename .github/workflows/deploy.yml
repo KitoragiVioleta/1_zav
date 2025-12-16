@@ -1,25 +1,28 @@
-name: k6 Cloud Load Test
+name: Deploy to Docker Hub
 
 on:
   push:
-    branches:
-      - "**"
+    branches: [ "main" ]
 
 jobs:
-  run-cloud-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup K6
-        uses: grafana/setup-k6-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Run k6 test (upload results)
-        uses: grafana/run-k6-action@v1
-        env:
-          K6_CLOUD_TOKEN: ${{ secrets.K6_CLOUD_TOKEN }}
-          K6_CLOUD_PROJECT_ID: ${{ secrets.K6_CLOUD_PROJECT_ID }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
         with:
-          path: test.js
-          cloud-run-locally: false
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/my-node-app:latest
